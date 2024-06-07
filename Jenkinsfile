@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+    def filename = "subfinder_output.txt"
 
     stages {
 
@@ -19,8 +19,8 @@ pipeline {
 	stage("Run Subfinder"){
 		agent any
 		steps{
-			sh "docker run --rm -v \$(pwd):/src projectdiscovery/subfinder:latest -d priceless.com -o /src/output.txt"
-			sh "ls -ltr && cat output.txt"
+			sh "docker run --rm -v \$(pwd):/src projectdiscovery/subfinder:latest -d priceless.com -o ${filename}"
+			sh "ls -ltr && cat $filename"
 	
 		}
 	}
@@ -29,10 +29,11 @@ pipeline {
 		when {
 			allOf{
 				expression {
-					return fileExists('output.txt')
+					sh "ls -ltr"
+					return fileExists(filename)
 				}
 				expression {
-					return sh(script: 'stat -c %s "output.txt"', returnStdout: tru).toInteger() > 0
+					return sh(script: "stat -c %s ${filename}", returnStdout: true).toInteger() > 0
 				}
 
 			}
