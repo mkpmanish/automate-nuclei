@@ -1,7 +1,8 @@
 pipeline {
     agent any
-    def filename = "subfinder_output.txt"
-
+    environment{
+	filename = "subfinder_output.txt"
+    }
     stages {
 
 	stage("Pre-Runup-Cleanup"){
