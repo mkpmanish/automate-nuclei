@@ -20,7 +20,7 @@ pipeline {
 	stage("Run Subfinder"){
 		agent any
 		steps{
-			sh "docker run --rm -v \$(pwd):/src projectdiscovery/subfinder:latest -d priceless.com -o ${filename}"
+			sh "docker run --rm -v \$(pwd):/src projectdiscovery/subfinder:latest -d priceless.com -o /src/${filename}"
 			sh "ls -ltr \$(pwd) && cat \$(pwd)/$filename"
 	
 		}
