@@ -21,7 +21,7 @@ pipeline {
 		agent any
 		steps{
 			sh "docker run --rm -v \$(pwd):/src projectdiscovery/subfinder:latest -d priceless.com -o ${filename}"
-			sh "ls -ltr && cat \$(pwd)/$filename"
+			sh "ls -ltr \$(pwd) && cat \$(pwd)/$filename"
 	
 		}
 	}
