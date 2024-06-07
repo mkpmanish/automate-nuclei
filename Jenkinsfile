@@ -31,7 +31,7 @@ pipeline {
 			allOf{
 				expression {
 					sh "ls -ltr"
-					return fileExists(filename)
+					return fileExists("\$(pwd)/"filename)
 				}
 				expression {
 					return sh(script: "stat -c %s \$(pwd)/${filename}", returnStdout: true).toInteger() > 0
