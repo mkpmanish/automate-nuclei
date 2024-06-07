@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment{
 	filename = "subfinder_output.txt"
+	httpx_file = "httpx_output.txt"
     }
     stages {
 
@@ -26,7 +27,7 @@ pipeline {
 		}
 	}
 	
-	stage("Run httpx"){
+	stage("Run-httpx"){
 		agent any
 		when {
 			allOf{
@@ -38,7 +39,7 @@ pipeline {
 		}
 		steps {
 			echo "Running httpx against all the sub-domains"
-			sh "cat \$(pwd)/$filename | docker run -i projectdiscovery/httpx:latest"
+			sh "cat \$(pwd)/$filename | docker run -v \$(pwd):/src -i projectdiscovery/httpx:latest -o /src/${httpx_file}"
 		}
 	
 	}
@@ -48,16 +49,13 @@ pipeline {
 		when {
                         allOf{
                                 expression {
-                                        return fileExists('output.txt')
-                                }
-                                expression {
-                                        return sh(script: 'stat -c %s "output.txt"', returnStdout: tru).toInteger() > 0
+                                        return sh(script: "stat -c %s \$(pwd)/${httpx_file}", returnStdout: true).toInteger() > 0
                                 }
 
                         }
                 }
 		steps{
-			sh 'docker run --rm -v $(pwd):/src projectdiscovery/nuclei:latest -l /src/output.txt'
+			sh "docker run --rm -v $(pwd):/src projectdiscovery/nuclei:latest -l \$(pwd)/${httpx_file}"
 		}
 
 	}
