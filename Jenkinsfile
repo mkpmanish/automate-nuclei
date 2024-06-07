@@ -55,7 +55,7 @@ pipeline {
                         }
                 }
 		steps{
-			sh "docker run --rm -v \$(pwd):/src projectdiscovery/nuclei:latest -l \$(pwd)/${filename}"
+			sh "docker run --rm -v \$(pwd):/src projectdiscovery/nuclei:latest -l /src/${filename}"
 		}
 
 	}
