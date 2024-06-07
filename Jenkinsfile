@@ -27,6 +27,7 @@ pipeline {
 	}
 	
 	stage("Run httpx"){
+		agent any
 		when {
 			allOf{
 				expression {
@@ -43,6 +44,7 @@ pipeline {
 	}
 	
 	stage("Run-Nuclei"){
+		agent any
 		when {
                         allOf{
                                 expression {
