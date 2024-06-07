@@ -26,7 +26,7 @@ pipeline {
 	
 	stage("Run httpx"){
 		when {
-			allof{
+			allOf{
 				expression {
 					return fileExists('output.txt')
 				}
@@ -44,7 +44,7 @@ pipeline {
 	
 	stage("Run-Nuclei"){
 		when {
-                        allof{
+                        allOf{
                                 expression {
                                         return fileExists('output.txt')
                                 }
