@@ -21,7 +21,7 @@ pipeline {
 		agent any
 		steps{
 			sh "docker run --rm -v \$(pwd):/src projectdiscovery/subfinder:latest -d priceless.com -o ${filename}"
-			sh "ls -ltr && cat $filename"
+			sh "ls -ltr && cat \$(pwd)/$filename"
 	
 		}
 	}
@@ -34,7 +34,7 @@ pipeline {
 					return fileExists(filename)
 				}
 				expression {
-					return sh(script: "stat -c %s ${filename}", returnStdout: true).toInteger() > 0
+					return sh(script: "stat -c %s \$(pwd)/${filename}", returnStdout: true).toInteger() > 0
 				}
 
 			}
