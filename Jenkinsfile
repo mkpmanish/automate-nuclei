@@ -30,10 +30,6 @@ pipeline {
 		when {
 			allOf{
 				expression {
-					sh "ls -ltr"
-					return fileExists("\$(pwd)/"filename)
-				}
-				expression {
 					return sh(script: "stat -c %s \$(pwd)/${filename}", returnStdout: true).toInteger() > 0
 				}
 
@@ -41,6 +37,7 @@ pipeline {
 		}
 		steps {
 			echo "Running httpx against all the sub-domains"
+			sh "cat \$(pwd)/$filename | docker run -i projectdiscovery/httpx:latest"
 		}
 	
 	}
