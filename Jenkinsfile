@@ -49,13 +49,13 @@ pipeline {
 		when {
                         allOf{
                                 expression {
-                                        return sh(script: "stat -c %s \$(pwd)/${httpx_file}", returnStdout: true).toInteger() > 0
+                                        return sh(script: "stat -c %s \$(pwd)/${filename}", returnStdout: true).toInteger() > 0
                                 }
 
                         }
                 }
 		steps{
-			sh "docker run --rm -v \$(pwd):/src projectdiscovery/nuclei:latest -l \$(pwd)/${httpx_file}"
+			sh "docker run --rm -v \$(pwd):/src projectdiscovery/nuclei:latest -l \$(pwd)/${filename}"
 		}
 
 	}
